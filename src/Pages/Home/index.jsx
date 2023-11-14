@@ -30,10 +30,10 @@ const Home = () => {
       <input 
         type="text" 
         placeholder="Search a product" 
-        className="rounded-lg border border-black w-80 p-2 mb-4 focus:outline-none" 
+        className="w-60 rounded-lg border border-black sm:w-80 p-2 mb-4 focus:outline-none" 
         onChange={(event) => {context.setSearchByTitle(event.target.value)}}
       />
-      <div className="grid gap-4 grid-cols-4 w-full max-w-screen-lg">
+      <div className="grid place-items-center gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full max-w-screen-lg">
         {renderView()}
       </div>
       <ProductDetail />
