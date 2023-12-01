@@ -1,23 +1,17 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { ShoppingCartContext } from "../../Context";
-import { ShoppingBagIcon } from "@heroicons/react/24/solid";
+import ShoppingCart from "../ShoppingCart";
 import logo from "../../assets/DVShark.svg";
 
 const NavBar = () => {
   const context = useContext(ShoppingCartContext);
   const activeStyle = "underline underline-offset-4";
   
-  const signOut = localStorage.getItem("sign-out");
-  const parsedSignOut = JSON.parse(signOut);
   const isUserSignOut = context.signOut;
 
   const account = localStorage.getItem("account");
   const parsedAccount = JSON.parse(account);
-
-  const noAccountInLocalStorage = parsedAccount ? Object.keys(parsedAccount).length === 0 : true;
-  const noAccountInLocalState = context.account ? Object.keys(context.account).length === 0 : true;
-  const hasUserAnAccount = !noAccountInLocalStorage || !noAccountInLocalState;
 
   const handleSignOut = () => {
     const stringfiedSignOut = JSON.stringify(true);
@@ -30,7 +24,7 @@ const NavBar = () => {
       return (
         <li>
           <NavLink
-            to="/dv-shopp/sign-in"
+            to="/dv-shopp/sign-in/"
             className={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
             Sign in
@@ -41,19 +35,13 @@ const NavBar = () => {
       return (
         <>
           <li>
-            <NavLink
-              to="mailto:dny.velasquez@gmail.com"
-              className={({ isActive }) => (isActive ? activeStyle : undefined)}
-            >
-              <span className="hidden sm:flex text-sm">
-                {parsedAccount?.email}
-              </span>
-              <span className="flex sm:hidden text-lg font-bold">@</span>
-            </NavLink>
+            <span className="hidden sm:flex text-sm">
+              {parsedAccount?.email}
+            </span>
           </li>
           <li>
             <NavLink
-              to="/dv-shopp//my-account"
+              to="/dv-shopp/my-account/"
               className={({ isActive }) => (isActive ? activeStyle : undefined)}
             >
               My account
@@ -61,7 +49,7 @@ const NavBar = () => {
           </li>
           <li>
             <NavLink
-              to="/dv-shopp/my-orders"
+              to="/dv-shopp/my-orders/"
               className={({ isActive }) => (isActive ? activeStyle : undefined)}
             >
               My orders
@@ -87,7 +75,7 @@ const NavBar = () => {
         <img src={logo} alt="logo" className="w-16 h-16 object-containt" />
         <h1 className="font-semibold text-lg flex items-center">
           <NavLink
-            to={`${isUserSignOut ? '/dv-shopp/signIn' : ' /dv-shopp/'}`}
+            to='/dv-shopp/'
             onClick={() => context.setSearchByCategory()}
           >
             DV-Shopp
@@ -185,15 +173,8 @@ const NavBar = () => {
       </div>
       <ul className="flex gap-2">
         {renderView()}
-        <li
-          className="flex items-center cursor-pointer"
-          onClick={() => {
-            context.openCheckoutSideMenu();
-            context.closeProductDetail();
-          }}
-        >
-          <ShoppingBagIcon className="h-6 w-6 text-black" />
-          <div>{context.cartProducts.length}</div>
+        <li className="flex items-center cursor-pointer">
+          <ShoppingCart />
         </li>
       </ul>
     </nav>
